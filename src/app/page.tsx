@@ -5,7 +5,8 @@ import { useState } from "react";
 import { Button } from "./components/forms/Button";
 import { Input } from "./components/forms/input";
 import { useRouter } from "next/navigation";
-import { RegisterModal } from "./components/RegisterModa";
+import { RegisterModal } from "./components/modal/RegisterModa";
+import { LogIn } from "lucide-react";
 
 export default function page() {
   const loginBoxFormStyles =
@@ -20,6 +21,7 @@ export default function page() {
     senha: string;
   }
 
+  const [errors, setErrors] = useState({ email: false, senha: false });
   const [inputsData, setInputsData] = useState<any>({
     email: "",
     senha: "",
@@ -28,6 +30,15 @@ export default function page() {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const onChangeInputs = (e: any, id: string) => {
+    if (e !== "") {
+      setErrors((prev: any) => {
+        return {
+          ...prev,
+          [id]: false,
+        };
+      });
+    }
+
     setInputsData((prevData: any) => {
       return {
         ...prevData,
@@ -35,6 +46,12 @@ export default function page() {
       };
     });
   };
+
+  document.body.addEventListener("keydown", (e: any) => {
+    if (e.key == "Enter") {
+      onSubmit();
+    }
+  });
 
   const onSubmit = () => {
     if (
@@ -49,8 +66,34 @@ export default function page() {
       });
       console.log(isRegistered);
       if (isRegistered.includes(true)) {
+        localStorage.setItem("actualUser", JSON.stringify(inputsData));
+
         window.location.href = "/HomePage";
-      } else window.alert("tem nao fi");
+      } else {
+        setErrors((prev: any) => {
+          return {
+            ...prev,
+            senha: "Usuario nao existe ou senha incorreta",
+          };
+        });
+      }
+    } else {
+      if (inputsData.senha == "") {
+        setErrors((prev: any) => {
+          return {
+            ...prev,
+            senha: true,
+          };
+        });
+      }
+      if (inputsData.email == "") {
+        setErrors((prev: any) => {
+          return {
+            ...prev,
+            email: true,
+          };
+        });
+      }
     }
   };
 
@@ -63,6 +106,25 @@ export default function page() {
     ) {
       if (localStorage.getItem("User")) {
         const data = JSON.parse(localStorage.getItem("User") as string);
+        if (
+          data
+            .map((dat: any) => {
+              console.log("log", dat, inputsData);
+              if (dat.email === inputsData.email) {
+                return true;
+              }
+            })
+            .includes(true)
+        ) {
+          setErrors((prev: any) => {
+            return {
+              ...prev,
+              senha: "Usuario ja existe tente fazer o login",
+            };
+          });
+
+          return;
+        }
         data.push(inputsData);
         localStorage.setItem("User", JSON.stringify(data));
         setIsOpenModal(false);
@@ -71,6 +133,23 @@ export default function page() {
         localStorage.setItem("User", JSON.stringify([inputsData]));
         setIsOpenModal(false);
         setInputsData({ email: "", senha: "" });
+      }
+    } else {
+      if (inputsData.senha == "") {
+        setErrors((prev: any) => {
+          return {
+            ...prev,
+            senha: true,
+          };
+        });
+      }
+      if (inputsData.email == "") {
+        setErrors((prev: any) => {
+          return {
+            ...prev,
+            email: true,
+          };
+        });
       }
     }
   };
@@ -85,8 +164,11 @@ export default function page() {
   ];
 
   return (
-    <div className="w-screen  h-screen flex flex-col gap-6 justify-center items-center">
+    <div
+      className={`w-screen h-screen flex flex-col gap-6 justify-center items-center`}
+    >
       <RegisterModal
+        errors={errors}
         setIsOpenModal={setIsOpenModal}
         inputsSchema={inputsSchema}
         inputsData={inputsData}
@@ -94,12 +176,14 @@ export default function page() {
         onSubmit={register}
         isOpen={isOpenModal}
       />
-
-      <h1 className="text-4xl">LOGIN</h1>
+      <div className="flex flex-row justify-center gap-4 items-center">
+        <h1 className="text-4xl">LOGIN</h1>
+        <LogIn size={35} />
+      </div>
       <form
         className={`${loginBoxFormStyles} flex flex-col justify-center items-center `}
       >
-        <div className={`${flexStyle}`}>
+        <div className={`${flexStyle} ${!isOpenModal ? "" : "hidden"}`}>
           {inputsSchema.map((schema: any, index: number) => {
             return (
               <Input
@@ -107,6 +191,7 @@ export default function page() {
                 onChange={onChangeInputs}
                 value={inputsData?.[schema.label]}
                 required={true}
+                errors={errors}
                 type={schema.type}
                 placeholder={schema.placeholder}
                 label={schema.label}

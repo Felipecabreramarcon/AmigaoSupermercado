@@ -6,4 +6,6 @@ export const buttonStyles = (style: string) => {
   }
   if (style == "texted")
     return "w-auto h-5 text-sm border-b-[1px] border-red-500";
+  if (style == "addToCart")
+    return "text-sm w-full h-12 text-white bg-green-700 rounded-[10px] hover:bg-green-500 hover:text-black  ";
 };
