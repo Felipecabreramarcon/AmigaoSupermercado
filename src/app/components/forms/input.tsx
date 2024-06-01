@@ -51,7 +51,7 @@ export const Input = ({
       {label == "senha" && (
         <div
           onClick={onView}
-          className="absolute transition-all hover:text-black text-gray-300 top-10 right-12"
+          className="absolute transition-all hover:text-black text-gray-300 top-10 right-28"
         >
           {isViewPass ? <EyeOffIcon /> : <EyeIcon />}
         </div>

@@ -73,8 +73,9 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
   };
 
   const totalValue =
-    filteredData.length > 0 &&
-    Object.keys(itemQuant).length > 0 &&
+    itemQuant &&
+    filteredData?.length > 0 &&
+    Object?.keys(itemQuant).length > 0 &&
     " R$ " +
       String(
         filteredData
@@ -103,6 +104,9 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
       <h1 className="text-3xl absolute top-5">Carrinho</h1>
 
       <div className="text-xl absolute bottom-28">Valor total:{totalValue}</div>
+      <button className=" bg-red-500 transition-all hover:bg-blue-500 hover:border-red-500 px-4 py-2 rounded-[10px] border-2 border-blue-500 text-white text-xl absolute bottom-10">
+        Finalizar Compra
+      </button>
 
       <div className="flex h-[70vh] mb-10 box-border overflow-auto flex-col gap-3 justify-start py-2 items-center w-full">
         {filteredData.map((elem: any, index: number) => {

@@ -8,38 +8,58 @@ import { CartScreen } from "./components/cart/cartscreen";
 
 export default function HomePage() {
   const [cartItemsNumber, setCartItemsNumber] = useState(0);
-  const [cartItems, setCartItems] = useState<any[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(true);
-
-  const bebidasData = bebidas();
-
   const actualUser = JSON.parse(localStorage.getItem("actualUser") as string);
 
-  useEffect(() => {
-    if (cartItems.length == 0 && actualUser) {
-      const storageData = JSON.parse(localStorage.getItem("User") as string);
-      if (storageData) {
-        const newUserData = storageData.map((data: any) => {
-          if (data.email == actualUser.email && data?.cart) {
-            setCartItems(data?.cart);
-            setCartItemsNumber(data?.cart?.length);
-          }
-        });
+  const cartItemsFromLocal = () => {
+    const storageData = JSON.parse(localStorage.getItem("User") as string);
+    if (storageData) {
+      const user = storageData.find(
+        (data: any) => data.email === actualUser.email
+      );
+      if (user && user.cart) {
+        return user.cart;
       }
     }
-  }, []);
+  };
+
+  const [cartItems, setCartItems] = useState<any[]>(cartItemsFromLocal() || []);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const bebidasData = bebidas();
 
   // console.log(cartItems);
 
   useEffect(() => {
-    const storageData = JSON.parse(localStorage.getItem("User") as string);
-    if (storageData && cartItems) {
-      const newUserData = storageData.map((data: any) => {
-        if (data.email == actualUser.email) {
-          return { ...data, cart: [...cartItems] };
-        } else return data;
-      });
+    const actualUser = JSON.parse(localStorage.getItem("actualUser") as string);
 
+    const cartItemsFromLocal = () => {
+      const storageData = JSON.parse(localStorage.getItem("User") as string);
+      if (storageData) {
+        const user = storageData.find(
+          (data: any) => data.email === actualUser.email
+        );
+        if (user && user.cart) {
+          setCartItemsNumber(user.cart.length);
+        }
+      }
+    };
+
+    cartItemsFromLocal();
+  }, []);
+
+  useEffect(() => {
+    const actualUser = JSON.parse(localStorage.getItem("actualUser") as string);
+    const storageData = JSON.parse(localStorage.getItem("User") as string);
+
+    if (storageData) {
+      const newUserData = storageData.map((data: any) => {
+        if (data.email === actualUser.email) {
+          setCartItemsNumber(cartItems.length);
+          return { ...data, cart: [...cartItems] };
+        } else {
+          return data;
+        }
+      });
       localStorage.setItem("User", JSON.stringify(newUserData));
     }
   }, [cartItems]);
