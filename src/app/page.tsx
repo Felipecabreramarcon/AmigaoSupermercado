@@ -4,30 +4,21 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "./components/forms/Button";
 import { Input } from "./components/forms/input";
-import { useRouter } from "next/navigation";
 import { RegisterModal } from "./components/modal/RegisterModa";
 import { LogIn } from "lucide-react";
 
-export default function page() {
-  const loginBoxFormStyles =
-    "h-1/2 min-w-1/3 w-[40%] max-1/3 border-2 border-white/75";
-
-  const flexStyle = "w-full flex flex-col justify-center items-center ";
-
-  const router = useRouter();
-
-  interface inputsDataDTO {
-    email: string;
-    senha: string;
-  }
-
+export default function Page() {
   const [errors, setErrors] = useState({ email: false, senha: false });
   const [inputsData, setInputsData] = useState<any>({
     email: "",
     senha: "",
   });
-
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const loginBoxFormStyles =
+    "h-1/2 min-w-1/3 w-[40%] max-1/3 border-2 border-white/75";
+
+  const flexStyle = "w-full flex flex-col justify-center items-center ";
 
   const onChangeInputs = (e: any, id: string) => {
     if (e !== "") {
