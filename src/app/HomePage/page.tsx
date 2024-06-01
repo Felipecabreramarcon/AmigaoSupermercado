@@ -3,18 +3,17 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../components/header/header";
 import { bebidas } from "../items/bebidas";
 import { ItemsRow } from "./components/items/itemsRow";
-import { Button } from "../components/forms/Button";
 import { CartScreen } from "./components/cart/cartscreen";
 
 export default function HomePage() {
   const [cartItemsNumber, setCartItemsNumber] = useState(0);
   const actualUser = JSON.parse(
-    window?.localStorage.getItem("actualUser") as string
+    global?.window?.localStorage.getItem("actualUser") as string
   );
 
   const cartItemsFromLocal = () => {
     const storageData = JSON.parse(
-      window?.localStorage.getItem("User") as string
+      global?.window?.localStorage.getItem("User") as string
     );
     if (storageData) {
       const user = storageData.find(
@@ -35,12 +34,12 @@ export default function HomePage() {
 
   useEffect(() => {
     const actualUser = JSON.parse(
-      window?.localStorage.getItem("actualUser") as string
+      global?.window?.localStorage.getItem("actualUser") as string
     );
 
     const cartItemsFromLocal = () => {
       const storageData = JSON.parse(
-        window?.localStorage.getItem("User") as string
+        global?.window?.localStorage.getItem("User") as string
       );
       if (storageData) {
         const user = storageData.find(
@@ -57,10 +56,10 @@ export default function HomePage() {
 
   useEffect(() => {
     const actualUser = JSON.parse(
-      window?.localStorage.getItem("actualUser") as string
+      global?.window?.localStorage.getItem("actualUser") as string
     );
     const storageData = JSON.parse(
-      window?.localStorage.getItem("User") as string
+      global?.window?.localStorage.getItem("User") as string
     );
 
     if (storageData) {
@@ -72,7 +71,7 @@ export default function HomePage() {
           return data;
         }
       });
-      window?.localStorage.setItem("User", JSON.stringify(newUserData));
+      global?.window?.localStorage.setItem("User", JSON.stringify(newUserData));
     }
   }, [cartItems]);
 
