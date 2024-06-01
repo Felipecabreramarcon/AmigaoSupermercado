@@ -8,10 +8,14 @@ import { CartScreen } from "./components/cart/cartscreen";
 
 export default function HomePage() {
   const [cartItemsNumber, setCartItemsNumber] = useState(0);
-  const actualUser = JSON.parse(localStorage.getItem("actualUser") as string);
+  const actualUser = JSON.parse(
+    window?.localStorage.getItem("actualUser") as string
+  );
 
   const cartItemsFromLocal = () => {
-    const storageData = JSON.parse(localStorage.getItem("User") as string);
+    const storageData = JSON.parse(
+      window?.localStorage.getItem("User") as string
+    );
     if (storageData) {
       const user = storageData.find(
         (data: any) => data.email === actualUser.email
@@ -30,10 +34,14 @@ export default function HomePage() {
   // console.log(cartItems);
 
   useEffect(() => {
-    const actualUser = JSON.parse(localStorage.getItem("actualUser") as string);
+    const actualUser = JSON.parse(
+      window?.localStorage.getItem("actualUser") as string
+    );
 
     const cartItemsFromLocal = () => {
-      const storageData = JSON.parse(localStorage.getItem("User") as string);
+      const storageData = JSON.parse(
+        window?.localStorage.getItem("User") as string
+      );
       if (storageData) {
         const user = storageData.find(
           (data: any) => data.email === actualUser.email
@@ -48,8 +56,12 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    const actualUser = JSON.parse(localStorage.getItem("actualUser") as string);
-    const storageData = JSON.parse(localStorage.getItem("User") as string);
+    const actualUser = JSON.parse(
+      window?.localStorage.getItem("actualUser") as string
+    );
+    const storageData = JSON.parse(
+      window?.localStorage.getItem("User") as string
+    );
 
     if (storageData) {
       const newUserData = storageData.map((data: any) => {
@@ -60,7 +72,7 @@ export default function HomePage() {
           return data;
         }
       });
-      localStorage.setItem("User", JSON.stringify(newUserData));
+      window?.localStorage.setItem("User", JSON.stringify(newUserData));
     }
   }, [cartItems]);
 

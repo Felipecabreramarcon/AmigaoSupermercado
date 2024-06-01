@@ -49,7 +49,9 @@ export default function Page() {
       Object.values(inputsData).length > 1 &&
       !Object.values(inputsData).includes("")
     ) {
-      const storedUsers = JSON.parse(localStorage.getItem("User") as string);
+      const storedUsers = JSON.parse(
+        window?.localStorage.getItem("User") as string
+      );
       const isRegistered = storedUsers.map((user: any) => {
         if (user.nome == inputsData.nome && user.senha == inputsData.senha) {
           return true;
@@ -57,7 +59,7 @@ export default function Page() {
       });
       console.log(isRegistered);
       if (isRegistered.includes(true)) {
-        localStorage.setItem("actualUser", JSON.stringify(inputsData));
+        window?.localStorage.setItem("actualUser", JSON.stringify(inputsData));
 
         window.location.href = "/HomePage";
       } else {
@@ -95,8 +97,8 @@ export default function Page() {
       Object.values(inputsData).length > 1 &&
       !Object.values(inputsData).includes("")
     ) {
-      if (localStorage.getItem("User")) {
-        const data = JSON.parse(localStorage.getItem("User") as string);
+      if (window?.localStorage.getItem("User")) {
+        const data = JSON.parse(window?.localStorage.getItem("User") as string);
         if (
           data
             .map((dat: any) => {
@@ -117,11 +119,11 @@ export default function Page() {
           return;
         }
         data.push(inputsData);
-        localStorage.setItem("User", JSON.stringify(data));
+        window?.localStorage.setItem("User", JSON.stringify(data));
         setIsOpenModal(false);
         setInputsData({ email: "", senha: "" });
       } else {
-        localStorage.setItem("User", JSON.stringify([inputsData]));
+        window?.localStorage.setItem("User", JSON.stringify([inputsData]));
         setIsOpenModal(false);
         setInputsData({ email: "", senha: "" });
       }
