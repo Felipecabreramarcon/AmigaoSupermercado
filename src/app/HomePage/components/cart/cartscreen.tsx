@@ -5,6 +5,7 @@ import {
   CircleX,
   Minus,
   Plus,
+  ShoppingCart,
   Trash2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -103,12 +104,23 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
       </div>
       <h1 className="text-3xl absolute top-5">Carrinho</h1>
 
-      <div className="text-xl absolute bottom-28">Valor total:{totalValue}</div>
+      <div className="text-xl absolute bottom-28">
+        {data.length > 0 && "Valor total:" + totalValue}
+      </div>
       <button className=" bg-red-500 transition-all hover:bg-blue-500 hover:border-red-500 px-4 py-2 rounded-[10px] border-2 border-blue-500 text-white text-xl absolute bottom-10">
         Finalizar Compra
       </button>
 
       <div className="flex h-[70vh] mb-10 box-border overflow-auto flex-col gap-3 justify-start py-2 items-center w-full">
+        {data.length === 0 && (
+          <div className="flex relative flex-col m-auto justify-center items-center gap-12">
+            <h1 className="text-4xl">Carrinho vazio</h1>
+            <ShoppingCart size={100} />
+            <div className="absolute top-18 flex justify-center items-center text-white text-sm  right-[50px] w-8 h-8 bg-red-500 rounded-full border-[1px] border-black">
+              0
+            </div>
+          </div>
+        )}
         {filteredData.map((elem: any, index: number) => {
           return (
             <div

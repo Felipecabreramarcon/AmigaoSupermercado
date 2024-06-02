@@ -18,9 +18,9 @@ export const Header = ({ cartItemsNumber, setCartOpen }: any) => {
         className="relative w-auto transition-all hover:scale-110 cursor-pointer mr-10"
       >
         <ShoppingCart size={50} />
-        <span className="absolute flex justify-center items-center text-white text-sm  top-0 right-[-10px] w-6 h-6 bg-red-500 rounded-full border-[1px] border-black">
+        <div className="absolute flex justify-center items-center text-white text-sm  top-0 right-[-10px] w-6 h-6 bg-red-500 rounded-full border-[1px] border-black">
           {cartItemsNumber}
-        </span>
+        </div>
         <span>Carrinho</span>
       </div>
     </div>
