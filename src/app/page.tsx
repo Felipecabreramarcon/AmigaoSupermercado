@@ -50,19 +50,16 @@ export default function Page() {
       !Object.values(inputsData).includes("")
     ) {
       const storedUsers = JSON.parse(
-        global?.window?.localStorage.getItem("User") as string
+        window?.localStorage.getItem("User") as string
       );
       const isRegistered = storedUsers.map((user: any) => {
         if (user.nome == inputsData.nome && user.senha == inputsData.senha) {
           return true;
         }
       });
-      console.log(isRegistered);
+      // console.log(isRegistered);
       if (isRegistered.includes(true)) {
-        global?.window?.localStorage.setItem(
-          "actualUser",
-          JSON.stringify(inputsData)
-        );
+        window?.localStorage.setItem("actualUser", JSON.stringify(inputsData));
 
         window.location.href = "/HomePage";
       } else {
@@ -93,21 +90,19 @@ export default function Page() {
     }
   };
 
-  console.log(inputsData);
+  // console.log(inputsData);
 
   const register = () => {
     if (
       Object.values(inputsData).length > 1 &&
       !Object.values(inputsData).includes("")
     ) {
-      if (global?.window?.localStorage.getItem("User")) {
-        const data = JSON.parse(
-          global?.window?.localStorage.getItem("User") as string
-        );
+      if (window?.localStorage.getItem("User")) {
+        const data = JSON.parse(window?.localStorage.getItem("User") as string);
         if (
           data
             .map((dat: any) => {
-              console.log("log", dat, inputsData);
+              // console.log("log", dat, inputsData);
               if (dat.email === inputsData.email) {
                 return true;
               }
@@ -124,14 +119,11 @@ export default function Page() {
           return;
         }
         data.push(inputsData);
-        global?.window?.localStorage.setItem("User", JSON.stringify(data));
+        window?.localStorage.setItem("User", JSON.stringify(data));
         setIsOpenModal(false);
         setInputsData({ email: "", senha: "" });
       } else {
-        global?.window?.localStorage.setItem(
-          "User",
-          JSON.stringify([inputsData])
-        );
+        window?.localStorage.setItem("User", JSON.stringify([inputsData]));
         setIsOpenModal(false);
         setInputsData({ email: "", senha: "" });
       }
