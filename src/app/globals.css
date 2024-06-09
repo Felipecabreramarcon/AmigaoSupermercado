@@ -10,6 +10,9 @@
   --inputs-border: #e0e0e0;
   --button-color: #302581;
   --text-color:#4f4f4f;
+  --text-color2:#828282;
+  --text-dark: #4f4f4f;
+  --background:#fcfcfc;
 }
 
 @media (prefers-color-scheme: dark) {

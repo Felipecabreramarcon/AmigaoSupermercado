@@ -6,7 +6,9 @@ export const FavoritesScreen = ({
   isOpenFavorite,
   setIsOpenFavorite,
   addToCart,
+  setCartItems,
   onFavoriteClick,
+  setFavoriteItems,
 }: any) => {
   if (favoriteItems?.length === 0 && isOpenFavorite) {
     setIsOpenFavorite(false);
@@ -37,8 +39,10 @@ export const FavoritesScreen = ({
         <ItemsRow
           data={favoriteItems}
           favoriteItems={favoriteItems}
+          setCartItems={setCartItems}
           addToCart={addToCart}
           onFavoriteClick={onFavoriteClick}
+          setFavoriteItems={setFavoriteItems}
         />
       </div>
       {favoriteItems?.nome}

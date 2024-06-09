@@ -11,107 +11,84 @@ import {
 import { useEffect, useState } from "react";
 import { FinalizationModal } from "../finalizationScreenModal/finalizationModalScreen";
 
-export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
-  const [itemQuant, setItemQuant] = useState<any>();
+export const CartScreen = ({
+  data,
+  isOpen,
+  close,
+  setCartItems,
+  setRefresh,
+}: any) => {
   const [isFinalizationOpen, setIsFinalizationOpen] = useState(false);
 
-  useEffect(() => {
-    const dataNames = data?.map((elem: any) => elem?.nome);
+  const lessQuant = (id: string) => {
+    if (setCartItems) {
+      setCartItems((prev: any) => {
+        console.log(prev);
 
-    const formatedData = data?.map((elem: any) => {
-      const repeatItems = dataNames?.filter((name: any) => name === elem?.nome);
-      return {
-        elem,
-        quant: repeatItems?.length,
-      };
-    });
-
-    const filteredData = formatedData?.filter((elem: any, index: number) => {
-      return (
-        formatedData.findIndex(
-          (el: any) => el.elem?.nome === elem.elem?.nome
-        ) === index
-      );
-    });
-
-    const quantObj: any = {};
-    filteredData.forEach((elem: any) => {
-      quantObj[elem.elem?.nome] = elem.quant;
-    });
-
-    setItemQuant(quantObj);
-  }, [data]);
-
-  let filteredData = data
-    ?.map((elem: any) => {
-      return elem;
-    })
-    ?.filter((elem: any, index: number, self: any[]) => {
-      return self.findIndex((el: any) => el?.nome === elem?.nome) === index;
-    });
-
-  useEffect(() => {
-    const actualUser = JSON.parse(localStorage.getItem("actualUser") as string);
-    const storageData = JSON.parse(localStorage.getItem("User") as string);
-
-    if (storageData && itemQuant) {
-      const user = storageData?.find(
-        (data: any) => data.email === actualUser.email
-      );
-      user.cart = [];
-      filteredData.forEach((elem: any) => {
-        for (let i = 0; i < itemQuant[elem?.nome]; i++) {
-          user.cart.push(elem);
-        }
+        const newData = prev?.map((el: any) => {
+          if (String(el.id) === String(id) && el.quantity > 1) {
+            return { ...el, quantity: el.quantity - 1 };
+          } else return el;
+        });
+        console.log(newData);
+        return newData;
       });
-      // console.log(user.cart, "cart");
-      const newUserData = storageData?.map((data: any) => {
-        if (data.email === actualUser.email) {
-          return user;
-        }
-        return data;
-      });
-      // console.log("to mandano o bagui", newUserData);
-      localStorage.setItem("User", JSON.stringify(newUserData));
+      if (setRefresh) {
+        setRefresh(true);
+      }
     }
-  }, [data, itemQuant]);
-
-  const lessQuant = (name: string) => {
-    const newQuant =
-      itemQuant[name] == 1 ? itemQuant[name] : Number(itemQuant[name]) - 1;
-    const newQuantObj = { ...itemQuant, [name]: newQuant };
-    setItemQuant(newQuantObj);
   };
-  const moreQuant = (name: string) => {
-    const newQuant = Number(itemQuant[name]) + 1;
-    const newQuantObj = { ...itemQuant, [name]: newQuant };
-    setItemQuant(newQuantObj);
+  const moreQuant = (id: string) => {
+    if (setCartItems) {
+      setCartItems((prev: any) => {
+        const newData = prev?.map((el: any) => {
+          if (String(el.id) === String(id)) {
+            return { ...el, quantity: el.quantity + 1 };
+          } else return el;
+        });
+        return newData;
+      });
+    }
+    if (setRefresh) {
+      setRefresh(true);
+    }
   };
 
   const onChangeInputQuant = (e: any) => {
-    const newQuantObj = { ...itemQuant, [e.target.name]: e.target.value };
-    setItemQuant(newQuantObj);
+    setCartItems((prev: any) => {
+      const newData = prev.map((el: any) => {
+        if (String(el.id) === String(e.target.name)) {
+          return { ...el, quantity: e.target.value };
+        } else return el;
+      });
+      return newData;
+    });
+    if (setRefresh) {
+      setRefresh(true);
+    }
   };
 
-  const excludeItem = (name: string) => {
+  const excludeItem = (id: string) => {
     setCartItems((prev: any) => {
-      return prev?.filter((elem: any) => elem?.nome !== name);
+      return prev?.filter((elem: any) => String(elem?.id) !== String(id));
     });
+    if (setRefresh) {
+      setRefresh(true);
+    }
   };
   // console.log(data);
   // console.log(filteredData);
   const totalValue =
-    itemQuant &&
-    filteredData?.length > 0 &&
-    Object?.keys(itemQuant)?.length > 0 &&
+    data &&
+    data?.length > 0 &&
     " R$ " +
       String(
-        filteredData
+        data
           ?.reduce((acc: number, act: any) => {
             return (
               acc +
               Number(act.preco.replace("R$ ", "").replace(",", ".")) *
-                Number(itemQuant[act?.nome])
+                Number(act.quantity)
             );
           }, 0)
           .toFixed(2)
@@ -146,7 +123,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
             </>
           )}
         </div>
-        {filteredData?.length > 0 && (
+        {data?.length > 0 && (
           <button
             onClick={() => {
               setIsFinalizationOpen(true);
@@ -167,14 +144,14 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
               </div>
             </div>
           )}
-          {filteredData?.map((elem: any, index: number) => {
+          {data?.map((elem: any, index: number) => {
             return (
               <div
                 key={index}
                 className="w-[70%] z-0 relative rounded-md border-[#203669] border-2 py-5 px-3 justify-center items-center bg-white flex flex-row text-black h-60 "
               >
                 <div
-                  onClick={() => excludeItem(elem?.nome)}
+                  onClick={() => excludeItem(elem?.id)}
                   className="absolute cursor-pointer hover:text-red-600 transition-all text-[#203669] top-1 left-1"
                 >
                   <Trash2 />
@@ -192,7 +169,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
                     <span className="text-sm text-gray-600 flex gap-1">
                       Preço Total:{" "}
                       <p className="text-red-500 font-semibold">
-                        {itemQuant &&
+                        {elem &&
                           "R$ " +
                             String(
                               (
@@ -200,7 +177,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
                                   elem.preco
                                     .replace("R$ ", "")
                                     .replace(",", ".")
-                                ) * itemQuant[elem?.nome]
+                                ) * elem.quantity
                               ).toFixed(2)
                             ).replace(".", ",")}
                       </p>
@@ -208,20 +185,20 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
                   </div>
                   <div className=" z-0 w-3/4 h-10 py-1 px-1 rounded-md border-2 border-[#203669] flex justify-center items-center">
                     <button
-                      onClick={() => lessQuant(elem?.nome)}
+                      onClick={() => lessQuant(elem?.id)}
                       className="h-full hover:text-black/75 hover:bg-[#e5e7eb] rounded-md border-[1px] border-transparent transition-all  text-[#e5e7eb]  w-full flex justify-center items-center"
                     >
                       <Minus />
                     </button>
                     <input
-                      value={itemQuant && itemQuant[elem?.nome]}
-                      name={elem?.nome}
+                      value={elem?.quantity}
+                      name={elem?.id}
                       onChange={(e) => onChangeInputQuant(e)}
                       className="w-full focus:outline-none text-center"
                     />
 
                     <button
-                      onClick={() => moreQuant(elem?.nome)}
+                      onClick={() => moreQuant(elem?.id)}
                       className="h-full z-40 hover:bg-[#e5e7eb] border-[1px] rounded-md border-transparent hover:text-black/75 transition-all text-[#e5e7eb] w-full flex justify-center items-center"
                     >
                       <Plus />

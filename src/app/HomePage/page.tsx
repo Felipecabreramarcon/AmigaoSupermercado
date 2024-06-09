@@ -1,161 +1,29 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Header } from "../components/header/header";
-import { bebidas } from "../items/bebidas";
 import { ItemsRow } from "./components/items/itemsRow";
 import { CartScreen } from "./components/cart/cartscreen";
 import { getItemsByGenre } from "../helpers/getItemsByGenre";
 import { FavoritesScreen } from "./components/favorites/favoritesScreen";
+import { getStorageData } from "../helpers/getStorageData";
+import { addToCart, onFavoriteClick } from "../helpers/addToCart";
 
 export default function HomePage() {
-  const [cartItemsNumber, setCartItemsNumber] = useState(0);
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
 
-  const cartItemsFromLocal = () => {
-    if (typeof window !== "undefined") {
-      const actualUser = JSON.parse(
-        window?.localStorage.getItem("actualUser") as string
-      );
-      const storageData = JSON.parse(
-        window?.localStorage.getItem("User") as string
-      );
-      if (storageData) {
-        const user = storageData?.find(
-          (data: any) => data.email === actualUser.email
-        );
-        if (user && user.cart) {
-          return user.cart;
-        }
-      }
-    }
-  };
-  const favoritesFromLocal = () => {
-    if (typeof window !== "undefined") {
-      const actualUser = JSON.parse(
-        window?.localStorage.getItem("actualUser") as string
-      );
-      const storageData = JSON.parse(
-        window?.localStorage.getItem("User") as string
-      );
-      if (storageData) {
-        const user = storageData?.find(
-          (data: any) => data.email === actualUser.email
-        );
-        if (user && user.favorites) {
-          return user.favorites;
-        } else if (user && !user.favorites) {
-          user.favorites = [];
-          const newStorageData = storageData?.map((data: any) => {
-            if (data.email === actualUser.email) {
-              return { ...user, favorites: [] };
-            } else {
-              return data;
-            }
-          });
-          window?.localStorage.setItem("User", JSON.stringify(newStorageData));
-          return [];
-        }
-      }
-    }
-  };
+  const {
+    loading,
+    storageData: userData,
+    setRefresh,
+    favoriteItems,
+    setFavoriteItems,
+    cartItems,
+    setCartItems,
+  } = getStorageData();
+  console.log(userData);
 
-  const [favoriteItems, setFavoriteItems] = useState<any[]>(
-    favoritesFromLocal()
-  );
-
-  useEffect(() => {
-    const addFavoriteToLocal = () => {
-      const actualUser = JSON.parse(
-        window?.localStorage.getItem("actualUser") as string
-      );
-      const storageData = JSON.parse(
-        window?.localStorage.getItem("User") as string
-      );
-      if (storageData) {
-        const newStorageData = storageData?.map((data: any) => {
-          if (data.email === actualUser.email) {
-            return { ...data, favorites: favoriteItems };
-          } else {
-            return data;
-          }
-        });
-        window?.localStorage.setItem("User", JSON.stringify(newStorageData));
-      }
-    };
-    addFavoriteToLocal();
-  }, [favoriteItems]);
-
-  const onFavoriteClick = (item: any) => {
-    console.log("entrou");
-    if (item && favoriteItems?.find((el: any) => el.id === item.id)) {
-      console.log("entrou if1");
-      setFavoriteItems((prev: any) => {
-        return prev?.filter((el: any) => el.id !== item.id);
-      });
-    } else if (item && !favoriteItems?.find((el: any) => el.id === item.id)) {
-      console.log("entrou if2");
-      setFavoriteItems((prev: any) => {
-        return [...prev, item];
-      });
-    }
-  };
-
-  const [cartItems, setCartItems] = useState<any[]>(cartItemsFromLocal() || []);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // console.log(cartItems);
-
-  useEffect(() => {
-    const actualUser = JSON.parse(
-      window?.localStorage.getItem("actualUser") as string
-    );
-
-    const cartItemsFromLocalLength = () => {
-      const storageData = JSON.parse(
-        window?.localStorage.getItem("User") as string
-      );
-      if (storageData) {
-        const user = storageData?.find(
-          (data: any) => data?.email === actualUser?.email
-        );
-        if (user && user.cart) {
-          setCartItemsNumber(user?.cart?.length);
-        }
-      }
-    };
-
-    cartItemsFromLocalLength();
-  }, []);
-
-  useEffect(() => {
-    const actualUser = JSON.parse(
-      window?.localStorage.getItem("actualUser") as string
-    );
-    const storageData = JSON.parse(
-      window?.localStorage.getItem("User") as string
-    );
-
-    if (storageData) {
-      const newUserData = storageData?.map((data: any) => {
-        if (data?.email === actualUser?.email) {
-          setCartItemsNumber(cartItems?.length);
-          return { ...data, cart: [...cartItems] };
-        } else {
-          return data;
-        }
-      });
-      window?.localStorage.setItem("User", JSON.stringify(newUserData));
-    }
-  }, [cartItems]);
-
-  const addToCart = (item: any) => {
-    if (item) {
-      setCartItems((prev: any) => {
-        return [...prev, item];
-      });
-      setCartItemsNumber(cartItemsNumber + 1);
-    }
-  };
   console.log(favoriteItems, "favItems");
   const genders = ["bebidas", "Alimentos Básicos"];
 
@@ -169,13 +37,15 @@ export default function HomePage() {
         favoriteItems={favoriteItems}
         setCartOpen={setIsCartOpen}
         setIsOpenFavorite={setIsOpenFavorite}
-        cartItemsNumber={cartItemsNumber}
+        cartItemsNumber={cartItems && cartItems.length}
       />
       <FavoritesScreen
         setIsOpenFavorite={setIsOpenFavorite}
         isOpenFavorite={isOpenFavorite}
         onFavoriteClick={onFavoriteClick}
         addToCart={addToCart}
+        setCartItems={setCartItems}
+        setFavoriteItems={setFavoriteItems}
         favoriteItems={favoriteItems}
       />
       <CartScreen
@@ -185,24 +55,30 @@ export default function HomePage() {
         close={setIsCartOpen}
       />
 
-      <div className="w-full flex flex-col gap-10">
-        {genders?.map((gender: string, index: number) => {
-          return (
-            <div key={index}>
-              <h1 className="text-4xl text-center mb-4 mt-32 ">{gender}</h1>
+      {!loading ? (
+        <div className="w-full flex flex-col gap-10">
+          {genders?.map((gender: string, index: number) => {
+            return (
+              <div key={index}>
+                <h1 className="text-4xl text-center mb-4 mt-32 ">{gender}</h1>
 
-              <div className="w-full shadow-xl h-auto py-10 bg-slate-500/50 ">
-                <ItemsRow
-                  favoriteItems={favoriteItems}
-                  onFavoriteClick={onFavoriteClick}
-                  data={getItemsByGenre(gender)}
-                  addToCart={addToCart}
-                />
+                <div className="w-full  h-auto py-10  ">
+                  <ItemsRow
+                    favoriteItems={favoriteItems || []}
+                    onFavoriteClick={onFavoriteClick}
+                    setFavoriteItems={setFavoriteItems}
+                    data={getItemsByGenre(gender) || []}
+                    addToCart={addToCart}
+                    setCartItems={setCartItems}
+                  />
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="h-40 w-40 bg-transparent animate-[spin_1s_ease_infinite] border-8 rounded-full border-[--inputs-border] border-b-[--button-color]"></div>
+      )}
     </div>
   );
 }
