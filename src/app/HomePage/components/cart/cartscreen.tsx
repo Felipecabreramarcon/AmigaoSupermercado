@@ -16,10 +16,10 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
   const [isFinalizationOpen, setIsFinalizationOpen] = useState(false);
 
   useEffect(() => {
-    const dataNames = data.map((elem: any) => elem.nome);
+    const dataNames = data.map((elem: any) => elem?.nome);
 
     const formatedData = data.map((elem: any) => {
-      const repeatItems = dataNames.filter((name: any) => name === elem.nome);
+      const repeatItems = dataNames.filter((name: any) => name === elem?.nome);
       return {
         elem,
         quant: repeatItems?.length,
@@ -28,14 +28,15 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
 
     const filteredData = formatedData.filter((elem: any, index: number) => {
       return (
-        formatedData.findIndex((el: any) => el.elem.nome === elem.elem.nome) ===
-        index
+        formatedData.findIndex(
+          (el: any) => el.elem?.nome === elem.elem?.nome
+        ) === index
       );
     });
 
     const quantObj: any = {};
     filteredData.forEach((elem: any) => {
-      quantObj[elem.elem.nome] = elem.quant;
+      quantObj[elem.elem?.nome] = elem.quant;
     });
 
     setItemQuant(quantObj);
@@ -46,7 +47,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
       return elem;
     })
     .filter((elem: any, index: number, self: any[]) => {
-      return self.findIndex((el: any) => el.nome === elem.nome) === index;
+      return self.findIndex((el: any) => el?.nome === elem?.nome) === index;
     });
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
       );
       user.cart = [];
       filteredData.forEach((elem: any) => {
-        for (let i = 0; i < itemQuant[elem.nome]; i++) {
+        for (let i = 0; i < itemQuant[elem?.nome]; i++) {
           user.cart.push(elem);
         }
       });
@@ -94,7 +95,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
 
   const excludeItem = (name: string) => {
     setCartItems((prev: any) => {
-      return prev.filter((elem: any) => elem.nome !== name);
+      return prev.filter((elem: any) => elem?.nome !== name);
     });
   };
   // console.log(data);
@@ -110,7 +111,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
             return (
               acc +
               Number(act.preco.replace("R$ ", "").replace(",", ".")) *
-                Number(itemQuant[act.nome])
+                Number(itemQuant[act?.nome])
             );
           }, 0)
           .toFixed(2)
@@ -173,14 +174,14 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
                 className="w-[70%] z-0 relative rounded-md border-[#203669] border-2 py-5 px-3 justify-center items-center bg-white flex flex-row text-black h-60 "
               >
                 <div
-                  onClick={() => excludeItem(elem.nome)}
+                  onClick={() => excludeItem(elem?.nome)}
                   className="absolute cursor-pointer hover:text-red-600 transition-all text-[#203669] top-1 left-1"
                 >
                   <Trash2 />
                 </div>
                 <img className="w-28 h-28" src={elem.img} alt="" />
                 <div className="flex flex-col gap-4">
-                  <span className="font-semibold">{elem.nome}</span>
+                  <span className="font-semibold">{elem?.nome}</span>
                   <div className="flex flex-col gap-1">
                     <span className="text-sm gap-1  text-gray-600 flex">
                       Preço Unitario:{" "}
@@ -199,7 +200,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
                                   elem.preco
                                     .replace("R$ ", "")
                                     .replace(",", ".")
-                                ) * itemQuant[elem.nome]
+                                ) * itemQuant[elem?.nome]
                               ).toFixed(2)
                             ).replace(".", ",")}
                       </p>
@@ -207,20 +208,20 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
                   </div>
                   <div className=" z-0 w-3/4 h-10 py-1 px-1 rounded-md border-2 border-[#203669] flex justify-center items-center">
                     <button
-                      onClick={() => lessQuant(elem.nome)}
+                      onClick={() => lessQuant(elem?.nome)}
                       className="h-full hover:text-black/75 hover:bg-[#e5e7eb] rounded-md border-[1px] border-transparent transition-all  text-[#e5e7eb]  w-full flex justify-center items-center"
                     >
                       <Minus />
                     </button>
                     <input
-                      value={itemQuant && itemQuant[elem.nome]}
-                      name={elem.nome}
+                      value={itemQuant && itemQuant[elem?.nome]}
+                      name={elem?.nome}
                       onChange={(e) => onChangeInputQuant(e)}
                       className="w-full focus:outline-none text-center"
                     />
 
                     <button
-                      onClick={() => moreQuant(elem.nome)}
+                      onClick={() => moreQuant(elem?.nome)}
                       className="h-full z-40 hover:bg-[#e5e7eb] border-[1px] rounded-md border-transparent hover:text-black/75 transition-all text-[#e5e7eb] w-full flex justify-center items-center"
                     >
                       <Plus />

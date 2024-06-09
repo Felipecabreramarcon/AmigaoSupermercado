@@ -41,7 +41,7 @@ export const FavoritesScreen = ({
           onFavoriteClick={onFavoriteClick}
         />
       </div>
-      {favoriteItems.nome}
+      {favoriteItems?.nome}
     </div>
   );
 };

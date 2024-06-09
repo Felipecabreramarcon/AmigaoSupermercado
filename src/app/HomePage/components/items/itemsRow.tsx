@@ -63,7 +63,7 @@ export const ItemsRow = ({
               onClick={() => moveToPageItem(elem.id)}
               className="h-auto mb-7 cursor-pointer text-sm text-gray-500 font-semibold  hover:underline"
             >
-              {elem.nome}
+              {elem?.nome}
             </span>
             <span className="text-lg absolute text-red-500 bottom-14 font-bold">
               {elem.preco}

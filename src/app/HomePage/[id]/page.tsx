@@ -33,7 +33,7 @@ const ItemPage = () => {
             </div>
             <div className="h-full w-3/4 flex flex-col py-5 gap-2 pr-8">
               <h1 className="text-xl text-gray-600 font-semibold mb-4">
-                {itemData.nome}
+                {itemData?.nome}
               </h1>
               <p className="text-base text-gray-300 mb-1">
                 Código: {itemData.id}
