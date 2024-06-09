@@ -8,7 +8,7 @@ export const FavoritesScreen = ({
   addToCart,
   onFavoriteClick,
 }: any) => {
-  if (favoriteItems.length === 0) {
+  if (favoriteItems.length === 0 && isOpenFavorite) {
     setIsOpenFavorite(false);
     document.body.style.overflowY = "unset";
   }

@@ -78,7 +78,7 @@ export default function HomePage() {
 
   const onFavoriteClick = (item: any) => {
     console.log("entrou");
-    if (item && favoriteItems.find((el: any) => el.id === item.id)) {
+    if (item && favoriteItems?.find((el: any) => el.id === item.id)) {
       console.log("entrou if1");
       setFavoriteItems((prev: any) => {
         return prev.filter((el: any) => el.id !== item.id);
@@ -107,10 +107,10 @@ export default function HomePage() {
       );
       if (storageData) {
         const user = storageData.find(
-          (data: any) => data.email === actualUser.email
+          (data: any) => data?.email === actualUser?.email
         );
         if (user && user.cart) {
-          setCartItemsNumber(user.cart.length);
+          setCartItemsNumber(user?.cart?.length);
         }
       }
     };
@@ -128,8 +128,8 @@ export default function HomePage() {
 
     if (storageData) {
       const newUserData = storageData.map((data: any) => {
-        if (data.email === actualUser.email) {
-          setCartItemsNumber(cartItems.length);
+        if (data?.email === actualUser?.email) {
+          setCartItemsNumber(cartItems?.length);
           return { ...data, cart: [...cartItems] };
         } else {
           return data;
@@ -173,22 +173,16 @@ export default function HomePage() {
         setCartItems={setCartItems}
         data={cartItems}
         isOpen={isCartOpen}
-        close={() => {
-          setIsCartOpen(false);
-          document.body.style.overflow = "unset";
-        }}
+        close={setIsCartOpen}
       />
 
       <div className="w-full flex flex-col gap-10">
         {genders.map((gender: string, index: number) => {
           return (
-            <>
+            <div key={index}>
               <h1 className="text-4xl text-center mb-4 mt-32 ">{gender}</h1>
 
-              <div
-                key={index}
-                className="w-full shadow-xl h-auto py-10 bg-slate-500/50 "
-              >
+              <div className="w-full shadow-xl h-auto py-10 bg-slate-500/50 ">
                 <ItemsRow
                   favoriteItems={favoriteItems}
                   onFavoriteClick={onFavoriteClick}
@@ -196,7 +190,7 @@ export default function HomePage() {
                   addToCart={addToCart}
                 />
               </div>
-            </>
+            </div>
           );
         })}
       </div>

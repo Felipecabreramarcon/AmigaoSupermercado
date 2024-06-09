@@ -7,6 +7,7 @@ export const FinalizationModal = ({
   totalValue,
   setIsFinalizationOpen,
   isFinalizationOpen,
+  close,
 }: any) => {
   const [actualStage, setActualStage] = useState<number>(0);
 
@@ -37,7 +38,11 @@ export const FinalizationModal = ({
       <div className="h-[75%]  w-[60%] border-4 border-[#203669] flex items-center justify-center flex-col bg-slate-100 rounded-[25px] relative">
         <div className="absolute z-40 hover:text-red-500 transition-all  top-5 right-5">
           <CircleX
-            onClick={() => setIsFinalizationOpen(false)}
+            onClick={() => {
+              setIsFinalizationOpen(false);
+              document.body.style.overflowY = "unset";
+              close(false);
+            }}
             size={30}
             className="cursor-pointer"
           />
@@ -62,9 +67,11 @@ export const FinalizationModal = ({
         <div className="flex gap-6 justify-center items-center absolute  top-5 w-full">
           {stages.map((stage: string, index: number) => {
             return (
-              <div className="w-auto flex justify-center items-center">
+              <div
+                key={index}
+                className="w-auto flex justify-center items-center"
+              >
                 <div
-                  key={index}
                   className={`h-14 w-14  font-bold ${
                     index == actualStage
                       ? "text-[#e7252b] "

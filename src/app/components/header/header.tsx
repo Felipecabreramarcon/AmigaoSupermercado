@@ -21,7 +21,7 @@ export const Header = ({
           onClick={() => {
             if (favoriteItems.length > 0) {
               setIsOpenFavorite(true);
-              document.body.style.overflow = "hidden";
+              document.body.style.overflowY = "hidden";
             }
           }}
           className="w-auto flex justify-center items-center flex-col  transition-all relative cursor-pointer"
@@ -35,7 +35,7 @@ export const Header = ({
         <div
           onClick={() => {
             setCartOpen(true);
-            document.body.style.overflow = "hidden";
+            document.body.style.overflowY = "hidden";
           }}
           className="relative w-auto flex flex-col justify-center items-center transition-all hover:scale-110 cursor-pointer mr-10"
         >
