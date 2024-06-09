@@ -52,7 +52,7 @@ export const RegisterModal = ({
   }, [load]);
 
   const changePassword = () => {
-    if (recuperarSenha.senha.length < 6) {
+    if (recuperarSenha.senha?.length < 6) {
       return setError(
         "Senha muito curta, insira uma senha com no mínimo 6 caracteres."
       );

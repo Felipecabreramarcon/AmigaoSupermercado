@@ -18,7 +18,7 @@ export const FinalizationModal = ({
     "Finalização",
   ];
   const nextStage = () => {
-    if (actualStage < stages.length - 1) {
+    if (actualStage < stages?.length - 1) {
       setActualStage(actualStage + 1);
     }
   };

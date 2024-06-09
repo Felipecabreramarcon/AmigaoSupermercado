@@ -8,7 +8,7 @@ export const FavoritesScreen = ({
   addToCart,
   onFavoriteClick,
 }: any) => {
-  if (favoriteItems.length === 0 && isOpenFavorite) {
+  if (favoriteItems?.length === 0 && isOpenFavorite) {
     setIsOpenFavorite(false);
     document.body.style.overflowY = "unset";
   }
@@ -16,7 +16,7 @@ export const FavoritesScreen = ({
   return (
     <div
       className={`fixed py-32 z-20 flex flex-col overflow-hidden justify-center items-center w-screen h-screen top-24 bg-white  ${
-        favoriteItems.length > 0 && isOpenFavorite ? "" : "hidden"
+        favoriteItems?.length > 0 && isOpenFavorite ? "" : "hidden"
       }
        `}
     >

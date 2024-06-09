@@ -19,7 +19,7 @@ export const Header = ({
       <div className="flex justify-center items-center gap-10">
         <div
           onClick={() => {
-            if (favoriteItems.length > 0) {
+            if (favoriteItems?.length > 0) {
               setIsOpenFavorite(true);
               document.body.style.overflowY = "hidden";
             }
@@ -27,7 +27,7 @@ export const Header = ({
           className="w-auto flex justify-center items-center flex-col  transition-all relative cursor-pointer"
         >
           <div className="absolute flex justify-center items-center text-white text-sm  top-0 right-[-10px] w-6 h-6 bg-red-500 rounded-full border-[1px] border-black">
-            {favoriteItems.length}
+            {favoriteItems?.length}
           </div>
           <AiOutlineHeart size={50} />
           <span>Favoritos</span>

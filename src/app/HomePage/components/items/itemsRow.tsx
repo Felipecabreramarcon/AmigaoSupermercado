@@ -30,7 +30,7 @@ export const ItemsRow = ({
   return (
     <div
       className={`w-full  m-auto h-auto grid ${getGridColsClass(
-        data.length
+        data?.length
       )} gap-y-10  px-10`}
     >
       {data.map((elem: any, index: number) => {

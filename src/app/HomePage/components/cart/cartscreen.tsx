@@ -22,7 +22,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
       const repeatItems = dataNames.filter((name: any) => name === elem.nome);
       return {
         elem,
-        quant: repeatItems.length,
+        quant: repeatItems?.length,
       };
     });
 
@@ -102,7 +102,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
   const totalValue =
     itemQuant &&
     filteredData?.length > 0 &&
-    Object?.keys(itemQuant).length > 0 &&
+    Object?.keys(itemQuant)?.length > 0 &&
     " R$ " +
       String(
         filteredData
@@ -139,13 +139,13 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
         <h1 className="text-3xl absolute top-5">Carrinho</h1>
 
         <div className="text-xl absolute bottom-28 flex gap-1 font-semibold">
-          {data.length > 0 && (
+          {data?.length > 0 && (
             <>
               <p>Valor total:</p> <p> {totalValue}</p>
             </>
           )}
         </div>
-        {filteredData.length > 0 && (
+        {filteredData?.length > 0 && (
           <button
             onClick={() => {
               setIsFinalizationOpen(true);
@@ -157,7 +157,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
           </button>
         )}
         <div className="flex h-[70vh] mb-10 box-border overflow-auto flex-col gap-3 justify-start py-2 items-center w-full">
-          {data.length === 0 && (
+          {data?.length === 0 && (
             <div className="flex relative flex-col m-auto justify-center items-center gap-12">
               <h1 className="text-4xl">Carrinho vazio</h1>
               <ShoppingCart size={100} />
