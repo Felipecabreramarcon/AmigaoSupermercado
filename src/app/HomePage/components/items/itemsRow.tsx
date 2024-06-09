@@ -86,7 +86,7 @@ export const ItemsRow = ({
         {data?.map((elem: any, index: number) => {
           return (
             <div
-              className=" w-60 z-10 shadow-aiai relative text-[--text-color2] bg-white border-4 border-[#203669] px-6 flex flex-col justify-center items-center place-self-center gap-5 h-[400px] pb-14 rounded-xl"
+              className=" w-60 z-10 relative text-[--text-color2] bg-white border-4 border-[#203669] px-6 flex flex-col justify-center items-center place-self-center gap-5 h-[400px] pb-14 rounded-xl"
               key={index}
             >
               <div
