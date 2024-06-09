@@ -106,7 +106,7 @@ export default function Page() {
           );
 
           if (
-            !data.find((user: any) => user?.email === registerValues?.email)
+            !data?.find((user: any) => user?.email === registerValues?.email)
           ) {
             data.push(registerValues);
             window?.localStorage.setItem("User", JSON.stringify(data));

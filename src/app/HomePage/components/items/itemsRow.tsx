@@ -33,7 +33,7 @@ export const ItemsRow = ({
         data?.length
       )} gap-y-10  px-10`}
     >
-      {data.map((elem: any, index: number) => {
+      {data?.map((elem: any, index: number) => {
         return (
           <div
             className=" w-60 z-10  relative bg-white border-4 border-[#203669] px-6 flex flex-col justify-center items-center place-self-center gap-5 h-[350px] pb-14 rounded-xl"
@@ -42,12 +42,12 @@ export const ItemsRow = ({
             <div
               onClick={() => onFavoriteClick(elem)}
               className={`${
-                favoriteItems.find((el: any) => el.id === elem.id)
+                favoriteItems?.find((el: any) => el.id === elem.id)
                   ? "text-red-500 border-black"
                   : "border-gray-100"
               } absolute w-10 text-gray-300 pt-[2px] hover:border-black hover:text-black cursor-pointer transition-all flex border-2 rounded-full  justify-center items-center h-10 top-1 right-1`}
             >
-              {favoriteItems.find((el: any) => el.id === elem.id) ? (
+              {favoriteItems?.find((el: any) => el.id === elem.id) ? (
                 <AiFillHeart size={30} />
               ) : (
                 <AiOutlineHeart size={30} />

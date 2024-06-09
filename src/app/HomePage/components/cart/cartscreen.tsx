@@ -16,17 +16,17 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
   const [isFinalizationOpen, setIsFinalizationOpen] = useState(false);
 
   useEffect(() => {
-    const dataNames = data.map((elem: any) => elem?.nome);
+    const dataNames = data?.map((elem: any) => elem?.nome);
 
-    const formatedData = data.map((elem: any) => {
-      const repeatItems = dataNames.filter((name: any) => name === elem?.nome);
+    const formatedData = data?.map((elem: any) => {
+      const repeatItems = dataNames?.filter((name: any) => name === elem?.nome);
       return {
         elem,
         quant: repeatItems?.length,
       };
     });
 
-    const filteredData = formatedData.filter((elem: any, index: number) => {
+    const filteredData = formatedData?.filter((elem: any, index: number) => {
       return (
         formatedData.findIndex(
           (el: any) => el.elem?.nome === elem.elem?.nome
@@ -43,10 +43,10 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
   }, [data]);
 
   let filteredData = data
-    .map((elem: any) => {
+    ?.map((elem: any) => {
       return elem;
     })
-    .filter((elem: any, index: number, self: any[]) => {
+    ?.filter((elem: any, index: number, self: any[]) => {
       return self.findIndex((el: any) => el?.nome === elem?.nome) === index;
     });
 
@@ -55,7 +55,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
     const storageData = JSON.parse(localStorage.getItem("User") as string);
 
     if (storageData && itemQuant) {
-      const user = storageData.find(
+      const user = storageData?.find(
         (data: any) => data.email === actualUser.email
       );
       user.cart = [];
@@ -65,7 +65,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
         }
       });
       // console.log(user.cart, "cart");
-      const newUserData = storageData.map((data: any) => {
+      const newUserData = storageData?.map((data: any) => {
         if (data.email === actualUser.email) {
           return user;
         }
@@ -95,7 +95,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
 
   const excludeItem = (name: string) => {
     setCartItems((prev: any) => {
-      return prev.filter((elem: any) => elem?.nome !== name);
+      return prev?.filter((elem: any) => elem?.nome !== name);
     });
   };
   // console.log(data);
@@ -167,7 +167,7 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
               </div>
             </div>
           )}
-          {filteredData.map((elem: any, index: number) => {
+          {filteredData?.map((elem: any, index: number) => {
             return (
               <div
                 key={index}

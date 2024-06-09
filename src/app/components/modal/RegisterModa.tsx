@@ -59,7 +59,7 @@ export const RegisterModal = ({
     } else {
       if (typeof window !== "undefined") {
         const storageData = JSON.parse(localStorage.getItem("User") as string);
-        const userIndex = storageData.findIndex(
+        const userIndex = storageData?.findIndex(
           (user: any) => user.email == recuperarSenha.email
         );
         storageData[userIndex].senha = recuperarSenha.senha;

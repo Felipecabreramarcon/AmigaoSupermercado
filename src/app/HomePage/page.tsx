@@ -20,7 +20,7 @@ export default function HomePage() {
         window?.localStorage.getItem("User") as string
       );
       if (storageData) {
-        const user = storageData.find(
+        const user = storageData?.find(
           (data: any) => data.email === actualUser.email
         );
         if (user && user.cart) {
@@ -38,14 +38,14 @@ export default function HomePage() {
         window?.localStorage.getItem("User") as string
       );
       if (storageData) {
-        const user = storageData.find(
+        const user = storageData?.find(
           (data: any) => data.email === actualUser.email
         );
         if (user && user.favorites) {
           return user.favorites;
         } else if (user && !user.favorites) {
           user.favorites = [];
-          const newStorageData = storageData.map((data: any) => {
+          const newStorageData = storageData?.map((data: any) => {
             if (data.email === actualUser.email) {
               return { ...user, favorites: [] };
             } else {
@@ -72,7 +72,7 @@ export default function HomePage() {
         window?.localStorage.getItem("User") as string
       );
       if (storageData) {
-        const newStorageData = storageData.map((data: any) => {
+        const newStorageData = storageData?.map((data: any) => {
           if (data.email === actualUser.email) {
             return { ...data, favorites: favoriteItems };
           } else {
@@ -90,9 +90,9 @@ export default function HomePage() {
     if (item && favoriteItems?.find((el: any) => el.id === item.id)) {
       console.log("entrou if1");
       setFavoriteItems((prev: any) => {
-        return prev.filter((el: any) => el.id !== item.id);
+        return prev?.filter((el: any) => el.id !== item.id);
       });
-    } else if (item && !favoriteItems.find((el: any) => el.id === item.id)) {
+    } else if (item && !favoriteItems?.find((el: any) => el.id === item.id)) {
       console.log("entrou if2");
       setFavoriteItems((prev: any) => {
         return [...prev, item];
@@ -115,7 +115,7 @@ export default function HomePage() {
         window?.localStorage.getItem("User") as string
       );
       if (storageData) {
-        const user = storageData.find(
+        const user = storageData?.find(
           (data: any) => data?.email === actualUser?.email
         );
         if (user && user.cart) {
@@ -136,7 +136,7 @@ export default function HomePage() {
     );
 
     if (storageData) {
-      const newUserData = storageData.map((data: any) => {
+      const newUserData = storageData?.map((data: any) => {
         if (data?.email === actualUser?.email) {
           setCartItemsNumber(cartItems?.length);
           return { ...data, cart: [...cartItems] };
@@ -186,7 +186,7 @@ export default function HomePage() {
       />
 
       <div className="w-full flex flex-col gap-10">
-        {genders.map((gender: string, index: number) => {
+        {genders?.map((gender: string, index: number) => {
           return (
             <div key={index}>
               <h1 className="text-4xl text-center mb-4 mt-32 ">{gender}</h1>

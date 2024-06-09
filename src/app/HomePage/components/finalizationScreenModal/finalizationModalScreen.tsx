@@ -65,7 +65,7 @@ export const FinalizationModal = ({
         </div>
 
         <div className="flex gap-6 justify-center items-center absolute  top-5 w-full">
-          {stages.map((stage: string, index: number) => {
+          {stages?.map((stage: string, index: number) => {
             return (
               <div
                 key={index}
