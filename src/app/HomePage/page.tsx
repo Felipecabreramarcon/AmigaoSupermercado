@@ -11,44 +11,50 @@ export default function HomePage() {
   const [cartItemsNumber, setCartItemsNumber] = useState(0);
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
 
-  const actualUser = JSON.parse(
-    window?.localStorage.getItem("actualUser") as string
-  );
-
   const cartItemsFromLocal = () => {
-    const storageData = JSON.parse(
-      window?.localStorage.getItem("User") as string
-    );
-    if (storageData) {
-      const user = storageData.find(
-        (data: any) => data.email === actualUser.email
+    if (typeof window !== "undefined") {
+      const actualUser = JSON.parse(
+        window?.localStorage.getItem("actualUser") as string
       );
-      if (user && user.cart) {
-        return user.cart;
+      const storageData = JSON.parse(
+        window?.localStorage.getItem("User") as string
+      );
+      if (storageData) {
+        const user = storageData.find(
+          (data: any) => data.email === actualUser.email
+        );
+        if (user && user.cart) {
+          return user.cart;
+        }
       }
     }
   };
   const favoritesFromLocal = () => {
-    const storageData = JSON.parse(
-      window?.localStorage.getItem("User") as string
-    );
-    if (storageData) {
-      const user = storageData.find(
-        (data: any) => data.email === actualUser.email
+    if (typeof window !== "undefined") {
+      const actualUser = JSON.parse(
+        window?.localStorage.getItem("actualUser") as string
       );
-      if (user && user.favorites) {
-        return user.favorites;
-      } else if (user && !user.favorites) {
-        user.favorites = [];
-        const newStorageData = storageData.map((data: any) => {
-          if (data.email === actualUser.email) {
-            return { ...user, favorites: [] };
-          } else {
-            return data;
-          }
-        });
-        window?.localStorage.setItem("User", JSON.stringify(newStorageData));
-        return [];
+      const storageData = JSON.parse(
+        window?.localStorage.getItem("User") as string
+      );
+      if (storageData) {
+        const user = storageData.find(
+          (data: any) => data.email === actualUser.email
+        );
+        if (user && user.favorites) {
+          return user.favorites;
+        } else if (user && !user.favorites) {
+          user.favorites = [];
+          const newStorageData = storageData.map((data: any) => {
+            if (data.email === actualUser.email) {
+              return { ...user, favorites: [] };
+            } else {
+              return data;
+            }
+          });
+          window?.localStorage.setItem("User", JSON.stringify(newStorageData));
+          return [];
+        }
       }
     }
   };
@@ -59,6 +65,9 @@ export default function HomePage() {
 
   useEffect(() => {
     const addFavoriteToLocal = () => {
+      const actualUser = JSON.parse(
+        window?.localStorage.getItem("actualUser") as string
+      );
       const storageData = JSON.parse(
         window?.localStorage.getItem("User") as string
       );
