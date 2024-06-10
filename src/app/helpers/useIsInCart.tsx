@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { getStorageData } from "./getStorageData";
 
-export const isInCart = (id: number) => {
+export const useIsInCart = (id: number) => {
   const [quantity, setQuantity] = useState<any>(false);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(true);

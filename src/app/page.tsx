@@ -108,7 +108,7 @@ export default function Page() {
           if (
             !data?.find((user: any) => user?.email === registerValues?.email)
           ) {
-            data.push(registerValues);
+            data.push({ ...registerValues, cart: [], favorites: [] });
             window?.localStorage.setItem("User", JSON.stringify(data));
             setUserError(
               "Usuário cadastrado com sucesso! Faça o login para continuar"
@@ -121,7 +121,7 @@ export default function Page() {
         } else {
           window?.localStorage.setItem(
             "User",
-            JSON.stringify([registerValues])
+            JSON.stringify([{ ...registerValues, cart: [], favorites: [] }])
           );
           setUserError(
             "Usuário cadastrado com sucesso! Faça o login para continuar"
@@ -261,13 +261,16 @@ export default function Page() {
               )}
             </div>
             <Button
-              onClick={handleSubmit(registerFunc, () => {
-                setError("login.email", {});
-                setError("login.senha", {});
-                setError("recuperarSenha.senha", {});
+              onClick={handleSubmit(
+                () => {},
+                () => {
+                  setError("login.email", {});
+                  setError("login.senha", {});
+                  setError("recuperarSenha.senha", {});
 
-                registerFunc();
-              })}
+                  registerFunc();
+                }
+              )}
               style="outlined"
               label="Cadastrar"
             />

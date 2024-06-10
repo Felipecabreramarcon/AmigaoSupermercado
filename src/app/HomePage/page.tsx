@@ -5,8 +5,8 @@ import { ItemsRow } from "./components/items/itemsRow";
 import { CartScreen } from "./components/cart/cartscreen";
 import { getItemsByGenre } from "../helpers/getItemsByGenre";
 import { FavoritesScreen } from "./components/favorites/favoritesScreen";
-import { getStorageData } from "../helpers/getStorageData";
 import { addToCart, onFavoriteClick } from "../helpers/addToCart";
+import { useGetStorageData } from "../helpers/useGetStorageData";
 
 export default function HomePage() {
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
@@ -19,7 +19,7 @@ export default function HomePage() {
     setFavoriteItems,
     cartItems,
     setCartItems,
-  } = getStorageData();
+  } = useGetStorageData();
   console.log(userData);
 
   const [isCartOpen, setIsCartOpen] = useState(false);

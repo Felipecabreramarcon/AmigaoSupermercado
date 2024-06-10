@@ -3,13 +3,13 @@ import { Header } from "@/app/components/header/header";
 import { addToCart, onFavoriteClick } from "@/app/helpers/addToCart";
 import { formatCurrencyText } from "@/app/helpers/formatCurrencyText";
 import { getItemById } from "@/app/helpers/getItemById";
-import { getStorageData } from "@/app/helpers/getStorageData";
-import { isInCart } from "@/app/helpers/isInCart";
 import { ArrowLeft, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FavoritesScreen } from "../components/favorites/favoritesScreen";
 import { CartScreen } from "../components/cart/cartscreen";
+import { useIsInCart } from "@/app/helpers/useIsInCart";
+import { useGetStorageData } from "@/app/helpers/useGetStorageData";
 
 const ItemPage = () => {
   const [itemQuant, setItemQuant] = useState<any>(1);
@@ -25,7 +25,7 @@ const ItemPage = () => {
     setFavoriteItems,
     cartItems,
     setCartItems,
-  } = getStorageData();
+  } = useGetStorageData();
 
   useEffect(() => {
     if (itemQuant == "") {
@@ -63,7 +63,7 @@ const ItemPage = () => {
     );
   };
 
-  const { quantity: isPresent, loading, setRefresh } = isInCart(itemData.id);
+  const { quantity: isPresent, loading, setRefresh } = useIsInCart(itemData.id);
 
   const isPresentText = () => {
     if (isPresent) {

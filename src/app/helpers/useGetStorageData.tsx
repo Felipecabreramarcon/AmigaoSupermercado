@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { set } from "zod";
-import { isInCart } from "./isInCart";
 
-export const getStorageData = () => {
+export const useGetStorageData = () => {
   const [storageData, setStorageData] = useState<any>(false);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(true);
