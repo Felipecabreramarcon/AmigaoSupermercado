@@ -1,4 +1,4 @@
-export const bebidas = () => {
+export const Bebidas = () => {
   const obj = [
     {
       nome: "Cerveja Skol Pilsen Lata 473ml Pack Com 12 unidades",

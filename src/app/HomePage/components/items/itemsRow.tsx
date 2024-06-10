@@ -41,9 +41,9 @@ export const ItemsRow = ({
       case 4:
         return "grid-cols-4";
       case 5:
-        return "grid-cols-5";
+        return "grid-cols-4";
       default:
-        return "sm:grid-cols-3 2xl:grid-cols-6 ";
+        return "sm:grid-cols-3 2xl:grid-cols-4 ";
     }
   };
 
@@ -79,7 +79,7 @@ export const ItemsRow = ({
   if (itemQuant)
     return (
       <div
-        className={`w-full  m-auto h-auto grid ${getGridColsClass(
+        className={`w-full  grid ${getGridColsClass(
           data?.length
         )} gap-y-10  px-10`}
       >

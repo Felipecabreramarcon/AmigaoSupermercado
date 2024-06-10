@@ -12,21 +12,14 @@
   --text-color:#4f4f4f;
   --text-color2:#828282;
   --text-dark: #4f4f4f;
-  --background:#fcfcfc;
+  --background:#fcfcfc
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: #fcfcfc;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
 
 
 body {
   overflow-x: hidden;
-  color: rgb(var(--foreground-rgb));
+  color: rgb(var(--background));
   background: var(--background-start-rgb);
 }
 
