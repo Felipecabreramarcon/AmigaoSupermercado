@@ -10,10 +10,11 @@ export const useGetStorageData = () => {
   useEffect(() => {
     if (refresh) {
       setRefresh(false);
+      setLoading(true);
       setInterval(() => {
         setLoading(false);
       }, 1500);
-
+      console.log("entrei");
       const storageData = JSON.parse(localStorage.getItem("User") as string);
       if (storageData) {
         const actualUser = JSON.parse(

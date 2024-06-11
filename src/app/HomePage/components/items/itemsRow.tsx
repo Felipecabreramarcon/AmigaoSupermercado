@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/app/components/forms/Button";
 import { formatCurrencyText } from "@/app/helpers/formatCurrencyText";
+import { useGetStorageData } from "@/app/helpers/useGetStorageData";
 import { Heart, Minus, Plus } from "lucide-react";
 import { use, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -26,7 +27,6 @@ export const ItemsRow = ({
     }
   }, [data]);
 
-  console.log(itemQuant);
   const moveToPageItem = (id: number) => {
     window.location.href = `/HomePage/${id}`;
   };
@@ -46,7 +46,6 @@ export const ItemsRow = ({
         return "sm:grid-cols-3 2xl:grid-cols-4 ";
     }
   };
-
   useEffect(() => {
     if (data && itemQuant) {
       data.forEach((el: any) => {
@@ -76,10 +75,10 @@ export const ItemsRow = ({
     });
   };
 
-  if (itemQuant)
+  if (itemQuant) {
     return (
       <div
-        className={`w-full  grid ${getGridColsClass(
+        className={`w-full pb-56  grid ${getGridColsClass(
           data?.length
         )} gap-y-10  px-10`}
       >
@@ -94,12 +93,12 @@ export const ItemsRow = ({
                   onFavoriteClick(elem, favoriteItems, setFavoriteItems)
                 }
                 className={`${
-                  favoriteItems?.find((el: any) => el.id === elem.id)
+                  favoriteItems?.find((el: any) => el?.id === elem?.id)
                     ? "text-red-500 "
                     : "text-[--inputs-border]"
                 } absolute w-8  pt-[2px]  hover:text-[--text-color] cursor-pointer transition-all flex    justify-center items-center h-8 top-1 right-1`}
               >
-                {favoriteItems?.find((el: any) => el.id === elem.id) ? (
+                {favoriteItems?.find((el: any) => el?.id === elem?.id) ? (
                   <AiFillHeart size={25} />
                 ) : (
                   <AiOutlineHeart size={25} />
@@ -165,9 +164,9 @@ export const ItemsRow = ({
               </div>
 
               <button
-                onClick={() =>
-                  addToCart(elem, itemQuant[elem.id], setCartItems)
-                }
+                onClick={() => {
+                  addToCart(elem, itemQuant[elem.id], setCartItems);
+                }}
                 className="w-[102%] h-14 border-4 border-transparent rounded-xl border-t-[6px] hover:border-[#203669] hover:rounded-xl hover:rounded-t-none rounded-t-none transition-all duration-200  font-semibold text-white absolute bottom-[-2px] hover:bg-white hover:text-[#203669]  bg-[#203669] "
               >
                 Adicionar ao carrinho
@@ -177,4 +176,5 @@ export const ItemsRow = ({
         })}
       </div>
     );
+  }
 };

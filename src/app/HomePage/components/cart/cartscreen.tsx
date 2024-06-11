@@ -1,24 +1,13 @@
 "use client";
-import {
-  ChevronLeft,
-  ChevronRight,
-  CircleX,
-  Minus,
-  Plus,
-  ShoppingCart,
-  Trash2,
-} from "lucide-react";
+import { CircleX, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FinalizationModal } from "../finalizationScreenModal/finalizationModalScreen";
+import { useGetStorageData } from "@/app/helpers/useGetStorageData";
 
-export const CartScreen = ({
-  data,
-  isOpen,
-  close,
-  setCartItems,
-  setRefresh,
-}: any) => {
-  const [isFinalizationOpen, setIsFinalizationOpen] = useState(false);
+export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
+  const [isFinalizationOpen, setIsFinalizationOpen] = useState(true);
+
+  const { setRefresh } = useGetStorageData();
 
   const lessQuant = (id: string) => {
     if (setCartItems) {
@@ -96,11 +85,13 @@ export const CartScreen = ({
   if (isOpen)
     return (
       <div
-        className={`${isOpen ? "" : "hidden"} w-1/4 overflow-x-hidden  ${
+        className={`${isOpen ? "" : "hidden"} w-[30%] overflow-x-hidden  ${
           isFinalizationOpen ? "right-[150%]" : ""
-        } h-screen fixed top-0 flex gap-7 flex-col justify-center items-center z-[25] right-0 bg-slate-50 shadow-2xl`}
+        } h-screen fixed top-0 flex gap-7 flex-col justify-center items-center z-[25] right-0 bg-[--background] shadow-2xl`}
       >
         <FinalizationModal
+          cartItems={data}
+          setCartItems={setCartItems}
           setIsFinalizationOpen={setIsFinalizationOpen}
           isFinalizationOpen={isFinalizationOpen}
           close={close}
@@ -148,11 +139,11 @@ export const CartScreen = ({
             return (
               <div
                 key={index}
-                className="w-[70%] z-0 relative rounded-md border-[#203669] border-2 py-5 px-3 justify-center items-center bg-white flex flex-row text-black h-60 "
+                className="w-[70%] z-0 relative border-[--border-light] rounded border-2 py-6 px-4 justify-center items-center bg-white flex flex-row text-black h-60 "
               >
                 <div
                   onClick={() => excludeItem(elem?.id)}
-                  className="absolute cursor-pointer hover:text-red-600 transition-all text-[#203669] top-1 left-1"
+                  className="absolute cursor-pointer hover:text-red-600 transition-all text-[#203669] top-2 left-2"
                 >
                   <Trash2 />
                 </div>
@@ -183,7 +174,7 @@ export const CartScreen = ({
                       </p>
                     </span>
                   </div>
-                  <div className=" z-0 w-3/4 h-10 py-1 px-1 rounded-md border-2 border-[#203669] flex justify-center items-center">
+                  <div className=" z-0 w-3/4 p-0.5 h-10 rounded border-[1px] border-[--inputs-border] flex justify-center items-center">
                     <button
                       onClick={() => lessQuant(elem?.id)}
                       className="h-full hover:text-black/75 hover:bg-[#e5e7eb] rounded-md border-[1px] border-transparent transition-all  text-[#e5e7eb]  w-full flex justify-center items-center"
