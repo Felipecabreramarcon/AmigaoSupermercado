@@ -3,7 +3,6 @@ import React, { use, useEffect, useState } from "react";
 import { Header } from "../components/header/header";
 import { ItemsRow } from "./components/items/itemsRow";
 import { CartScreen } from "./components/cart/cartscreen";
-import { getItemsByGenre } from "../helpers/getItemsByGenre";
 import { FavoritesScreen } from "./components/favorites/favoritesScreen";
 import { addToCart, onFavoriteClick } from "../helpers/addToCart";
 import { useGetStorageData } from "../helpers/useGetStorageData";
@@ -13,15 +12,15 @@ export default function HomePage() {
   const [gender, setGender] = useState("Todos os Produtos");
   const {
     loading,
-    storageData: userData,
     setRefresh,
     favoriteItems,
     setFavoriteItems,
     cartItems,
     setCartItems,
+    allStorageData,
   } = useGetStorageData();
 
-  const [isCartOpen, setIsCartOpen] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchData, setSearchData] = useState<any>([]);
   const [method, setMethod] = useState("filtro");
 
@@ -35,7 +34,16 @@ export default function HomePage() {
     "HortiFruti",
     "Higiene e Beleza",
   ];
-
+  const getItemsByGenre = (gender: any) => {
+    if (allStorageData?.stockItems) {
+      if (gender == "Todos os Produtos") return allStorageData.stockItems;
+      else
+        return allStorageData.stockItems.filter(
+          (item: any) => item.categoria === gender
+        );
+    } else return [];
+  };
+  console.log(getItemsByGenre("Alimentos Básicos"));
   return (
     <div
       className={` overflow-hidden text-black pt-64 min-h-screen flex flex-col justify-center items-center bg-[--background] relative h-screen w-screen`}

@@ -20,7 +20,7 @@ export const useIsInCart = (id: number) => {
         const userData = storageData.find(
           (el: any) => el.email === actualUser.email
         );
-        const item = userData?.cart.find((el: any) => el.id === id);
+        const item = userData?.cart.find((el: any) => el?.id === id);
         if (item) {
           setQuantity(item.quantity);
         } else {

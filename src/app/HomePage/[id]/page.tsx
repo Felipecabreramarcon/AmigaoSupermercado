@@ -63,7 +63,11 @@ const ItemPage = () => {
     );
   };
 
-  const { quantity: isPresent, loading, setRefresh } = useIsInCart(itemData.id);
+  const {
+    quantity: isPresent,
+    loading,
+    setRefresh,
+  } = useIsInCart(itemData?.id);
 
   const isPresentText = () => {
     if (isPresent) {
@@ -95,6 +99,7 @@ const ItemPage = () => {
         <Header
           favoriteItems={favoriteItems}
           setCartOpen={setIsOpenCart}
+          isPageId={true}
           setIsOpenFavorite={setIsOpenFavorite}
           cartItemsNumber={cartItems && cartItems.length}
         />
@@ -118,7 +123,7 @@ const ItemPage = () => {
             <div className="w-4/5 bg-white flex justify-center items-center  border-2 rounded border-[--inputs-border]">
               <div className="h-full w-[35%] py-5 px-5">
                 <div className="p-2 border-[1px] py-2 rounded">
-                  <img src={itemData.img} alt="" />{" "}
+                  {<img src={itemData.img} alt="" />}{" "}
                 </div>
               </div>
               <div className="h-full w-3/4 relative flex flex-col py-5 gap-2 pr-8">

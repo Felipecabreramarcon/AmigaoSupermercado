@@ -4,6 +4,7 @@ import { searchItem } from "@/app/items/searchItem";
 import { Search, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
+import { Button } from "../forms/Button";
 
 export const Header = ({
   cartItemsNumber,
@@ -13,6 +14,7 @@ export const Header = ({
   setSearchData,
   searchData,
   setMethod,
+  isPageId,
 }: any) => {
   const [inputSearch, setInputSearch] = useState<any>("");
   console.log(searchData);
@@ -37,22 +39,33 @@ export const Header = ({
         className="w-24"
         src="https://www.amigao.com/media/logo/stores/1/logo-amigao.png"
       />
-      <div className="w-full h-full flex justify-center items-center">
-        <input
-          value={inputSearch}
-          onChange={(e) => setInputSearch(e.target.value)}
-          placeholder="Deseja pesquisar por um produto?"
-          className="w-1/2 rounded-l-md h-12 focus:outline-none text-sm py-1 px-2 border-2 border-r-0 border-[--inputs-border] "
-          type="text"
-        />
-        <div
-          onClick={search}
-          className=" rounded-r w-20 h-12 flex justify-center items-center text-white bg-[--button-color]"
-        >
-          <Search />
+      {!isPageId && (
+        <div className="w-full h-full flex justify-center items-center">
+          <input
+            value={inputSearch}
+            onChange={(e) => setInputSearch(e.target.value)}
+            placeholder="Deseja pesquisar por um produto?"
+            className="w-1/2 rounded-l-md h-12 focus:outline-none text-sm py-1 px-2 border-2 border-r-0 border-[--inputs-border] "
+            type="text"
+          />
+          <div
+            onClick={search}
+            className=" rounded-r w-20 h-12 flex justify-center items-center text-white bg-[--button-color]"
+          >
+            <Search />
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex justify-center items-center gap-10">
+        <div className="w-56">
+          <Button
+            onClick={(e: any) => {
+              e.preventDefault();
+              window.location.href = "/";
+            }}
+            label="Voltar para o login"
+          />
+        </div>
         <div
           onClick={() => {
             if (favoriteItems?.length > 0) {

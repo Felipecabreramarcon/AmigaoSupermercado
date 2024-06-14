@@ -1,7 +1,10 @@
 import { allItems } from "../items/allItems";
+import { useGetStorageData } from "./useGetStorageData";
 
 export const getItemsByGenre = (genre: string) => {
-  const itemsList = allItems();
+  const { allStorageData, setAllStorageData, loading } = useGetStorageData();
+
+  const itemsList = allStorageData.stockItems;
 
   if (genre === "Todos os Produtos") return itemsList;
 

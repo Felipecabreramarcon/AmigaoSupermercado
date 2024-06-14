@@ -229,9 +229,7 @@ export const FinalizationModal = ({
               );
             })}
             <div className="w-full h-36 b flex justify-between items-center px-2  mt-2">
-              <div className="w-1/3">
-                <Button label="Limpar carrinho" />
-              </div>
+              <div className="w-1/3"></div>
               <div className="w-1/3 flex justify-center items-center">
                 <div className="w-full relative ">
                   <span className=" w-full text-center absolute top-[-27px]">
@@ -458,21 +456,14 @@ export const FinalizationModal = ({
               <label className="w-full font-semibold text-sm text-[--text-color] ">
                 Método de entrega
               </label>
-              <div
-                onChange={(e) => {
-                  console.log(e);
-                  setValue("metodoEntrega", e.target.name);
-                }}
-                className="flex w-full  gap-4"
-              >
+              <div className="flex w-full  gap-4">
                 <div className="w-1/2 flex gap-2">
                   <input
-                    // onChange={(e) => {
-                    //   if (e.target.checked) {
-                    //     setValue("metodoEntrega", "Entrega");
-                    //   }
-                    // }}
-                    checked={watch("metodoEntrega") === "Entrega"}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setValue("metodoEntrega", "Entrega");
+                      }
+                    }}
                     type="radio"
                     className="accent-[--button-color] text-[--button-color]"
                     id="metodo"
@@ -484,12 +475,11 @@ export const FinalizationModal = ({
                 </div>
                 <div className="w-full flex gap-2">
                   <input
-                    // onChange={(e) => {
-                    //   if (e.target.checked) {
-                    //     setValue("metodoEntrega", "Retirada");
-                    //   }
-                    // }}
-                    checked={watch("metodoEntrega") === "Retirada"}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setValue("metodoEntrega", "Retirada");
+                      }
+                    }}
                     type="radio"
                     className="accent-[--button-color]"
                     id="metodo"
@@ -913,12 +903,14 @@ export const FinalizationModal = ({
                   Voltar
                 </button>
               )}
-              <button
-                onClick={nextStage}
-                className={`h-12 w-60  rounded-lg  hover:bg-white transition-all duration-300 hover:text-[#203669] hover:border-[#203669] border-4 border-transparent text-white text-base  font-bold  bg-[#203669]`}
-              >
-                {actualStage == 2 ? "Concluir Pedido" : " Avançar"}
-              </button>
+              {actualStage !== 3 && (
+                <button
+                  onClick={nextStage}
+                  className={`h-12 w-60  rounded-lg  hover:bg-white transition-all duration-300 hover:text-[#203669] hover:border-[#203669] border-4 border-transparent text-white text-base  font-bold  bg-[#203669]`}
+                >
+                  {actualStage == 2 ? "Concluir Pedido" : " Avançar"}
+                </button>
+              )}
             </div>
             <div className="flex gap-6  justify-center items-center absolute  top-5 w-full">
               {stages?.map((stage: string, index: number) => {

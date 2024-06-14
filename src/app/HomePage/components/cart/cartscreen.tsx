@@ -5,7 +5,7 @@ import { FinalizationModal } from "../finalizationScreenModal/finalizationModalS
 import { useGetStorageData } from "@/app/helpers/useGetStorageData";
 
 export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
-  const [isFinalizationOpen, setIsFinalizationOpen] = useState(true);
+  const [isFinalizationOpen, setIsFinalizationOpen] = useState(false);
 
   const { setRefresh } = useGetStorageData();
 

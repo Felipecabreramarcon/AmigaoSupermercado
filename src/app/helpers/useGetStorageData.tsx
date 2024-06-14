@@ -6,6 +6,7 @@ export const useGetStorageData = () => {
   const [refresh, setRefresh] = useState(true);
   const [favoriteItems, setFavoriteItems] = useState<any>([]);
   const [cartItems, setCartItems] = useState<any>([]);
+  const [allStorageData, setAllStorageData] = useState<any>([]);
 
   useEffect(() => {
     if (refresh) {
@@ -15,6 +16,11 @@ export const useGetStorageData = () => {
         setLoading(false);
       }, 1500);
       console.log("entrei");
+      setAllStorageData({
+        orders: JSON.parse(localStorage.getItem("Orders") as string),
+        users: JSON.parse(localStorage.getItem("User") as string),
+        stockItems: JSON.parse(localStorage.getItem("stockItems") as string),
+      });
       const storageData = JSON.parse(localStorage.getItem("User") as string);
       if (storageData) {
         const actualUser = JSON.parse(
@@ -63,6 +69,8 @@ export const useGetStorageData = () => {
   }, [favoriteItems]);
 
   return {
+    setAllStorageData,
+    allStorageData,
     loading,
     storageData,
     setRefresh,

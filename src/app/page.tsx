@@ -9,6 +9,7 @@ import { LogIn } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { allItems } from "./items/allItems";
 
 const flexColStyle = " flex flex-col justify-center items-center ";
 
@@ -62,10 +63,19 @@ export default function Page() {
     recuperarSenha,
   } = watch();
 
-  console.log(errors);
+  useEffect(() => {
+    const stockItems = localStorage.getItem("stockItems");
+
+    if (!stockItems) {
+      localStorage.setItem("stockItems", JSON.stringify(allItems()));
+    }
+  }, []);
 
   const onSubmit = () => {
-    if (!errors.login && loginValues) {
+    console.log(loginValues);
+    if (loginValues.email === "admin" && loginValues.senha == "123123") {
+      window.location.href = "/AdminPage";
+    } else if (!errors.login && loginValues) {
       if (typeof window !== "undefined") {
         const storedUsers = JSON.parse(
           window?.localStorage.getItem("User") as string
