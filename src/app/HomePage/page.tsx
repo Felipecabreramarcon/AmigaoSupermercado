@@ -6,6 +6,7 @@ import { CartScreen } from "./components/cart/cartscreen";
 import { FavoritesScreen } from "./components/favorites/favoritesScreen";
 import { addToCart, onFavoriteClick } from "../helpers/addToCart";
 import { useGetStorageData } from "../helpers/useGetStorageData";
+import { getItemsByGenre } from "../helpers/getItemsByGenre";
 
 export default function HomePage() {
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
@@ -34,16 +35,7 @@ export default function HomePage() {
     "HortiFruti",
     "Higiene e Beleza",
   ];
-  const getItemsByGenre = (gender: any) => {
-    if (allStorageData?.stockItems) {
-      if (gender == "Todos os Produtos") return allStorageData.stockItems;
-      else
-        return allStorageData.stockItems.filter(
-          (item: any) => item.categoria === gender
-        );
-    } else return [];
-  };
-  console.log(getItemsByGenre("Alimentos Básicos"));
+
   return (
     <div
       className={` overflow-hidden text-black pt-64 min-h-screen flex flex-col justify-center items-center bg-[--background] relative h-screen w-screen`}
