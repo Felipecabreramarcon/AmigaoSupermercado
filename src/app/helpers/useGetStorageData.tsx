@@ -12,10 +12,9 @@ export const useGetStorageData = () => {
     if (refresh) {
       setRefresh(false);
       setLoading(true);
-      setInterval(() => {
-        setLoading(false);
-      }, 1500);
+
       console.log("entrei");
+
       setAllStorageData({
         orders: JSON.parse(localStorage.getItem("Orders") as string),
         users: JSON.parse(localStorage.getItem("User") as string),
@@ -30,8 +29,26 @@ export const useGetStorageData = () => {
           (el: any) => el.email === actualUser.email
         );
         setStorageData(userData);
-        setFavoriteItems(userData.favorites);
-        setCartItems(userData.cart);
+        console.log(userData);
+        const stockItems = JSON.parse(
+          localStorage.getItem("stockItems") as string
+        );
+
+        if (stockItems && userData) {
+          console.log("fasdsaf");
+          const cartItemsfilthered = userData?.cart?.filter((elem: any) => {
+            return stockItems?.find((el: any) => {
+              console.log("elem.id", elem.id, el.id);
+              return el.id === elem.id;
+            });
+          });
+          console.log("cartItemsfilthered", cartItemsfilthered);
+          console.log(allStorageData);
+
+          setFavoriteItems(userData.favorites);
+          setCartItems(cartItemsfilthered);
+        }
+        setLoading(false);
       }
     }
   }, [refresh]);
@@ -48,23 +65,27 @@ export const useGetStorageData = () => {
         }
       });
       localStorage.setItem("User", JSON.stringify(newData));
-      setRefresh(true);
     }
   }, [cartItems]);
 
+  console.log(allStorageData);
   useEffect(() => {
     const usersData = JSON.parse(localStorage.getItem("User") as string);
 
     if (usersData && favoriteItems) {
+      const favoriteItemsfilthered = favoriteItems.filter((elem: any) => {
+        return allStorageData.stockItems.find((el: any) => el.id === elem.id);
+      });
+
+      console.log("aiai", favoriteItemsfilthered);
       const newData = usersData.map((data: any) => {
         if (data.email === storageData.email) {
-          return { ...data, favorites: [...favoriteItems] };
+          return { ...data, favorites: [...favoriteItemsfilthered] };
         } else {
           return data;
         }
       });
       localStorage.setItem("User", JSON.stringify(newData));
-      setRefresh(true);
     }
   }, [favoriteItems]);
 

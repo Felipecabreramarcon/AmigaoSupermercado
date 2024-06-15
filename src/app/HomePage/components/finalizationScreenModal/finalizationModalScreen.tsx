@@ -272,11 +272,11 @@ export const FinalizationModal = ({
       }
       if (
         watch("nomeTitular").length >= 10 &&
-        watch("cvv").length > 3 &&
+        watch("cvv").length >= 3 &&
         watch("cpf").length >= 13 &&
-        watch("numeroCartao").length > 16 &&
-        watch("validade").length > 1 &&
-        watch("bandeira")?.length > 1
+        watch("numeroCartao").length >= 16 &&
+        watch("validade").length >= 1 &&
+        watch("bandeira")?.length >= 1
       ) {
         nextStage();
       }
@@ -832,6 +832,20 @@ export const FinalizationModal = ({
         metodoEntrega: watch("metodoEntrega"),
         metodoPagamento: watch("metodoPagamento"),
       };
+
+      const local = JSON.parse(localStorage.getItem("User") as string);
+      if (storageData) {
+        const newStorageData = local.map((elem: any) => {
+          if (elem.email === storageData.email) {
+            return { ...elem, cart: [] };
+          }
+          return elem;
+        });
+        localStorage.setItem("User", JSON.stringify(newStorageData));
+        setCartItems([]);
+
+        setRefresh(true);
+      }
 
       if (watch("metodoPagamento") === "Cartão") {
         order["pagamento"] = {

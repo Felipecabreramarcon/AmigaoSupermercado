@@ -12,6 +12,7 @@ export const CreateAdminSelected = ({
   products,
   setProducts,
   loading,
+  setFavoriteItems,
 }: any) => {
   if (selected === 0) {
     return (
@@ -30,6 +31,7 @@ export const CreateAdminSelected = ({
   if (selected === 2) {
     return (
       <StockPage
+        setFavoriteItems={setFavoriteItems}
         products={products}
         setProducts={setProducts}
         rerender={rerender}

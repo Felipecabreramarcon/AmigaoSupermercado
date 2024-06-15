@@ -1,11 +1,14 @@
-import { allItems } from "../items/allItems";
-import { useGetStorageData } from "./useGetStorageData";
 
 export const getItemById = (id: number) => {
-  const { allStorageData, setAllStorageData, loading } = useGetStorageData();
+  if (typeof window !== "undefined") {
+    const itemsList = JSON.parse(localStorage.getItem("stockItems") as string);
 
-  if (!loading) {
-    const itemsList = allStorageData.stockItems;
+
+
     return itemsList?.find((item: any) => item.id === id);
+
+
+
+
   }
 };

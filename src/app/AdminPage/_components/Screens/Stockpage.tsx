@@ -15,7 +15,12 @@ const productSchema = z.object({
   desc: z.string().min(1, "Campo obrigatório"),
 });
 
-export const StockPage = ({ rerender, products, setProducts }: any) => {
+export const StockPage = ({
+  rerender,
+  products,
+  setProducts,
+  setFavoriteItems,
+}: any) => {
   const { allStorageData, setAllStorageData, loading, setRefresh } =
     useGetStorageData();
 
@@ -46,6 +51,10 @@ export const StockPage = ({ rerender, products, setProducts }: any) => {
   const deleteProduct = (id: number) => {
     const newProducts = products.filter((elem: any) => elem.id !== id);
     setProducts(newProducts);
+    setFavoriteItems((prev: any) => {
+      const newFav = prev.filter((elem: any) => elem.id !== id);
+      return newFav;
+    });
   };
 
   console.log(errors, products);

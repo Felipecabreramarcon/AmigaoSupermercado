@@ -10,8 +10,13 @@ const options = ["Usuários", "Editar produtos", "Pedidos", "Configurações"];
 
 const AdminPage = () => {
   const [selected, setSelected] = useState(0);
-  const { allStorageData, setAllStorageData, setRefresh, loading } =
-    useGetStorageData();
+  const {
+    allStorageData,
+    setAllStorageData,
+    setFavoriteItems,
+    setRefresh,
+    loading,
+  } = useGetStorageData();
   const [products, setProducts] = useState<any>([]);
 
   const rerender = () => {
@@ -54,6 +59,7 @@ const AdminPage = () => {
         handleChangeSelected={handleChangeSelected}
       />
       <CreateAdminSelected
+        setFavoriteItems={setFavoriteItems}
         loading={loading}
         products={products}
         setProducts={setProducts}

@@ -62,12 +62,27 @@ const ItemPage = () => {
       String((preco * (itemQuant + isPresent)).toFixed(2))
     );
   };
-
-  const {
-    quantity: isPresent,
-    loading,
-    setRefresh,
-  } = useIsInCart(itemData?.id);
+  const [isPresent, setQuantity] = useState<any>(false);
+  useEffect(() => {
+    const storageData = JSON.parse(localStorage.getItem("User") as string);
+    if (storageData) {
+      const actualUser = JSON.parse(
+        localStorage.getItem("actualUser") as string
+      );
+      const userData = storageData.find(
+        (el: any) => el.email === actualUser.email
+      );
+      console.log(userData);
+      console.log(id);
+      const item = userData?.cart.find((el: any) => el?.id === Number(id));
+      console.log("item", item);
+      if (item) {
+        setQuantity(item.quantity);
+      } else {
+        setQuantity(0);
+      }
+    }
+  }, []);
 
   const isPresentText = () => {
     if (isPresent) {
@@ -112,13 +127,12 @@ const ItemPage = () => {
           favoriteItems={favoriteItems}
         />
         <CartScreen
-          setRefresh={setRefresh}
           setCartItems={setCartItems}
           data={cartItems}
           isOpen={isOpenCart}
           close={setIsOpenCart}
         />
-        {!loading || !loadingData ? (
+        {!loadingData ? (
           <div className="w-[70%] h-[40%] flex justify-center  gap-3">
             <div className="w-4/5 bg-white flex justify-center items-center  border-2 rounded border-[--inputs-border]">
               <div className="h-full w-[35%] py-5 px-5">
@@ -185,7 +199,6 @@ const ItemPage = () => {
                 onClick={() => {
                   addToCart(itemData, Number(itemQuant), setCartItems);
                   setItemQuant(1);
-                  setRefresh(true);
                 }}
                 className="w-[80%] gap-2 flex text-sm text-white font-semibold justify-center items-center  bg-[#2f257f] h-14 rounded-[5px]"
               >
