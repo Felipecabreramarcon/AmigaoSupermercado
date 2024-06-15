@@ -13,7 +13,7 @@ export const FavoritesScreen = ({
 }: any) => {
   if (favoriteItems?.length === 0 && isOpenFavorite) {
     setIsOpenFavorite(false);
-    document.body.style.overflowY = "unset";
+    if (typeof window !== "undefined") document.body.style.overflowY = "unset";
   }
 
   return (
@@ -26,7 +26,8 @@ export const FavoritesScreen = ({
       <div
         onClick={() => {
           setIsOpenFavorite(false);
-          document.body.style.overflowY = "unset";
+          if (typeof window !== "undefined")
+            document.body.style.overflowY = "unset";
         }}
         className="w-40 text-xl hover:text-white transition-all duration-200 hover:bg-[#203669] font-bold text-[#203669] absolute top-8 gap-2 border-4 border-[#203669] h-14 left-8 cursor-pointer rounded-[10px] flex justify-center items-center "
       >

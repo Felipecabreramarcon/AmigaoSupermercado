@@ -890,7 +890,8 @@ export const FinalizationModal = ({
           <CircleX
             onClick={() => {
               setIsFinalizationOpen(false);
-              document.body.style.overflowY = "unset";
+              if (typeof window !== "undefined")
+                document.body.style.overflowY = "unset";
               close(false);
               setRefresh(true);
             }}

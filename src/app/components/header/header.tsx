@@ -25,8 +25,8 @@ export const Header = ({
     }
   };
 
-  if (typeof window !== undefined) {
-    window.document.body.addEventListener("keydown", (e) => {
+  if (typeof window !== "undefined") {
+    document.body.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && inputSearch !== "") {
         search();
       }
@@ -70,7 +70,8 @@ export const Header = ({
           onClick={() => {
             if (favoriteItems?.length > 0) {
               setIsOpenFavorite(true);
-              document.body.style.overflowY = "hidden";
+              if (typeof window !== "undefined")
+                document.body.style.overflowY = "hidden";
             }
           }}
           className="w-auto flex justify-center items-center flex-col  transition-all relative cursor-pointer"
@@ -85,7 +86,8 @@ export const Header = ({
         <div
           onClick={() => {
             setCartOpen(true);
-            document.body.style.overflowY = "hidden";
+            if (typeof window !== "undefined")
+              document.body.style.overflowY = "hidden";
           }}
           className="relative w-auto flex flex-col justify-center items-center transition-all hover:scale-110 cursor-pointer mr-10"
         >

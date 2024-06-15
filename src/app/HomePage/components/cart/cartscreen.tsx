@@ -99,7 +99,8 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
         <div
           onClick={() => {
             close(false);
-            document.body.style.overflowY = "unset";
+            if (typeof window !== "undefined")
+              document.body.style.overflowY = "unset";
           }}
           className="absolute top-3 right-4 cursor-pointer transition-all hover:text-red-500"
         >
@@ -118,7 +119,8 @@ export const CartScreen = ({ data, isOpen, close, setCartItems }: any) => {
           <button
             onClick={() => {
               setIsFinalizationOpen(true);
-              document.body.style.overflowY = "hidden";
+              if (typeof window !== "undefined")
+                document.body.style.overflowY = "hidden";
             }}
             className=" bg-white border-4 border-[#203669] duration-300 hover:bg-[#203669] hover:text-white transition-all  px-4 py-2 rounded-[10px]  text-[#203669] font-bold text-xl absolute bottom-10"
           >
